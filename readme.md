@@ -77,11 +77,7 @@ Visit [http://localhost:3000](http://localhost:3000) to start chatting with your
 
 ---
 
-## 📄 Uploading PDFs
 
-You can upload PDF documents via the frontend UI. They will be parsed and appended to `company_data.json` and embedded into Chroma vector DB automatically.
-
----
 
 ## 🌍 Scraping a Website
 
