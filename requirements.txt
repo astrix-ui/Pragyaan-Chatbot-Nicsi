@@ -1,0 +1,36 @@
+# FastAPI and related
+fastapi==0.111.0
+uvicorn==0.29.0
+
+# CORS
+python-multipart==0.0.9
+
+# Pydantic (ensure compatibility with fastapi)
+pydantic==2.11.7
+pydantic-core==2.33.2
+
+# Langchain and related (older, compatible versions)
+langchain==0.0.314
+langchain-community==0.0.19
+langsmith==0.0.87
+langchain-core==0.1.23
+
+# Ollama Embeddings and Vector DB
+chromadb==0.4.24
+numpy==1.26.4
+
+# Embedding model
+ollama  # No pip package, assumes you run Ollama locally with `llama3` pulled
+
+# PDF handling
+PyMuPDF==1.24.2
+
+# Utils
+aiohttp==3.12.13
+anyio==3.7.1
+requests==2.32.4
+tenacity==8.5.0
+packaging==23.2
+
+# Optional: Web scraping, only if needed for future data processing
+beautifulsoup4==4.12.3
