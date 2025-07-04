@@ -9,10 +9,19 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [isMiniChatOpen, setIsMiniChatOpen] = useState(false);
   const messagesEndRef = useRef(null);
+  const inputRef = useRef(null); // ✅ NEW
+  const resizingRef = useRef(null); // ✅ NEW
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  // ✅ Refocus input after loading finishes
+  useEffect(() => {
+    if (!isLoading) {
+      inputRef.current?.focus();
+    }
+  }, [isLoading]);
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
@@ -44,7 +53,6 @@ function App() {
       }]);
     } finally {
       setIsLoading(false);
-      
     }
   };
 
@@ -96,9 +104,35 @@ function App() {
     setIsMiniChatOpen(!isMiniChatOpen);
   };
 
+  // ✅ Resize Logic
+  const handleResizeMouseDown = (e) => {
+    const container = e.target.closest('.mini-chat-container');
+    if (!container) return;
+
+    resizingRef.current = container;
+
+    const startX = e.clientX;
+    const startWidth = container.offsetWidth;
+
+    const handleMouseMove = (moveEvent) => {
+      const dx = startX - moveEvent.clientX;
+      const newWidth = Math.max(280, startWidth + dx);
+      container.style.width = `${newWidth}px`;
+    };
+
+    const handleMouseUp = () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+      resizingRef.current = null;
+    };
+
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+  };
+
   return (
     <>
-      {/* UPLOAD FILES BTN  */}
+      {/* UPLOAD FILES BTN */}
       {/* <div className="pdf-upload">
         <label>
           Upload PDF:&nbsp;
@@ -153,6 +187,7 @@ function App() {
 
           <div className="mini-chat-input">
             <textarea
+              ref={inputRef} // ✅ Keeps focus
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyPress}
@@ -167,6 +202,12 @@ function App() {
               {isLoading ? <span className="spinner"></span> : 'Send'}
             </button>
           </div>
+
+          {/* ✅ Left Resize Handle */}
+          <div
+            className="resize-handle-left"
+            onMouseDown={handleResizeMouseDown}
+          />
         </div>
       )}
     </>

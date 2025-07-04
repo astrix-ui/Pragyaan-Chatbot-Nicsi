@@ -60,8 +60,8 @@ vectorstore, company_data_raw = load_company_data()
 
 # === Model & Prompt ===
 system_message = SystemMessagePromptTemplate.from_template(
-    "You are a helpful assistant. ONLY use the company data provided to answer the user's questions. If the answer is not found in the data, reply: 'I couldn’t find that information in our company records.'"
-)
+    "You are a helpful and concise assistant. Answer the user's questions using only the company data provided. Avoid phrases like 'I found it' or 'according to company data'. Just provide the answer naturally. If the information isn't available, respond with: 'I couldn’t find that information in our company records.'"
+    )
 
 model = ChatOpenAI(
     base_url="http://localhost:11434/v1",
